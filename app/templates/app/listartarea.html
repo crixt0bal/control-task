@@ -1,0 +1,93 @@
+{% extends 'app/base.html' %}
+
+{% block contenido %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 table-responsive" >
+            <a href="{% url 'creartarea'%}" class="btn btn-primary mt-2"><i class="fas fa-plus-square"></i> Crear Tarea</a>
+            <table  class="table table-hover table-striped mt-2">
+                <thead>
+                    <tr>
+                        <th scope="col" class="fw-bold">Id</th>
+                        <th scope="col" class="fw-bold">Descripcion</th>
+                        <th scope="col" class="fw-bold">Inicio</th>
+                        <th scope="col" class="fw-bold">Termino</th>
+                        <th scope="col" class="fw-bold">Repetible</th>
+                        <th scope="col" class="fw-bold">Activo</th>
+                        <th scope="col" class="fw-bold">Estado</th>
+                        <th scope="col" class="fw-bold">Creador</th>
+                        <th scope="col" class="fw-bold">Tarea Anterior</th>
+                        <th scope="col" class="fw-bold">Opciones</th>
+                    </tr>
+                </thead>
+                    
+                
+                    
+                
+                
+                {% for display in entity%}
+                    {% if display.5 == 1%}
+
+                    {% else %}
+
+                    {% endif %}
+                <tr>
+                    
+                    <td>{{display.0}}</td>
+                    <td>{{display.1}}</td>
+                    <td>{{display.2}}</td>
+                    <td>{{display.3}}</td>
+                    <td>
+                        {% if display.4 == 1 %}
+                        Si
+                        {% else %}
+                        No
+                        {% endif %} 
+                    </td>
+                    <td>
+                        {% if display.5 == 1 %}
+                        Si
+                        {% else %}
+                        No
+                        {% endif %} 
+                    </td>
+                    <td>
+                        {% if display.6 == 1 %}
+                        Por hacer
+                        {% endif %}
+                        {% if display.6 == 2 %}
+                        En curso
+                        {% endif %}
+                        {% if display.6 == 3 %}
+                        Finalizada
+                        {% endif %}
+                    </td>
+                    <td>{{display.7}}</td>
+                    <td>{{display.8}}</td>
+                    <td>
+                        {% if display.5 == 1 %}
+                        <a href="{% url 'modificartarea' display.0 %}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                        <a href="{% url 'finalizartarea' display.0 %}" class="btn btn-danger btn-sm"><i class="fas fa-minus-square"></i></a>
+                        {% else%}
+                        <a href="{% url 'listartarea' %}" class="btn btn-info btn-sm "><i class="fas fa-edit"></i></a>
+                        <a href="{% url 'listartarea'%}" class="btn btn-danger btn-sm "><i class="fas fa-minus-square"></i></a>
+                        {% endif %}
+                    </td>
+                    
+                </tr>
+                {% endfor %}
+            </table>
+            <div>
+                {% include 'app/paginator.html'%}
+            </div>
+        </div>
+    
+        
+    </div>
+    
+</div>
+
+
+
+{% endblock %}

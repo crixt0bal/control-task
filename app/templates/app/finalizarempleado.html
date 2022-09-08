@@ -1,0 +1,36 @@
+{% extends 'app/base.html' %}
+
+{% block contenido %}
+{% load crispy_forms_tags%}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-12 col-md-6 content m-0 mt-2 mb-2 pt-2 pb-2" >
+            <form class="p-0" method="POST">
+                {% csrf_token %}
+                <h2 class="text-center">¿Estas Seguro?</h2>
+                <p class="text-center">Darás de baja a un empleado</p>
+                <hr>
+                {{empleado | crispy}}
+                <div class="d-flex justify-content-around">
+                    <input class="btn btn-danger mb-2" type="submit" value="Finalizar Empleado">
+                    <a href="{% url 'listarusuario' %}" class="btn btn-info mb-2"><i class="fas fa-chevron-left"></i> Volver</a>
+                </div>
+                
+                <hr>
+                
+            </form>
+        </div>
+        <div class=" col-md-3">
+
+        </div>
+        
+    </div>
+    
+</div>
+
+
+
+{% endblock %}

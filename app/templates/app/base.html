@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ControlTask</title>
+    <!-- BOOTSTRAP -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'app/css/bootstrap.min.css'%}">
+    <!-- ESTILOS -->
+    <link rel="stylesheet" href="{% static 'app/css/estilos.css'%}">
+    <!-- IONIC ICONS -->
+    <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
+    <!-- FONTAWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <!-- FAVICON -->
+    <link rel="shortcut icon" href="{% static 'app/img/favicon/faviconx96.png'%}" type="image/x-icon">
+    <!-- VALIDACIONES JS -->
+    <script src="{% static 'app/js/validarempleado.js' %}"></script>
+    <script src="{% static 'app/js/validartarea.js' %}"></script>
+     
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand " style="font-family: 'Titan One', cursive;" href="/">ControlTask</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link " href="{% url 'listarusuario'%}"><i class="fas fa-user"></i> Empleados
+              <span class="visually-hidden">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'listartarea'%}"><i class="fas fa-tasks"></i> Tareas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'asignarrol'%}"><i class="fas fa-user-tag"></i> Roles</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'crearunidadinterna'%}"><i class="fas fa-building"></i> Unidades Internas</a>
+          </li>
+          
+          
+          <!-- <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Separated link</a>
+            </div>
+          </li> -->
+        </ul>
+        {% if user.is_authenticated %}
+          <li class="nav-item dropdown fw-bold d-flex my-2 my-sm-0">
+            <a class="nav-link dropdown-toggle text-light btn btn-success" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> ¡Hola {{user.username}}!</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="{% url 'login'%}"><i class="fa-solid fa-power-off"></i> Cerrar sesión</a>
+              <!-- <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Separated link</a> -->
+            </div>
+          </li>
+        {% endif%}
+        <!-- <form class="d-flex">
+          <input class="form-control me-sm-2" type="text" placeholder="Search">
+          <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form> -->
+      </div>
+    </div>
+  </nav>
+
+      
+
+          <!-- CONTENIDO -->
+          <div id="contenido">
+            {% block contenido %}
+            {% endblock %}
+          </div>
+          
+            
+        </div>
+    </div>
+
+    
+
+<div class="container mt-auto">
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div class="col-md-4 d-flex align-items-center">
+      <!-- <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+        <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+      </a> -->
+      <span class="text-muted">© 2022 <a href="/" class="text-primary text-decoration-none">Sistema control de tareas</a></span>
+    </div>
+
+    <!-- <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
+      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
+      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+    </ul> -->
+  </footer>
+</div>  
+      
+
+      
+      
+<!-- BOOTSTRAP 5 -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="{% static 'app/js/bootstrap.min.js'%}"></script>
+<script src="{% static 'app/js/main.js'%}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{% if messages%}
+  {% for displaydata in messages%}
+    <script>
+     Swal.fire({
+         "title": "Felicitaciones",
+         "text": "{{displaydata}}",
+         "icon": "success"
+     })
+    </script>
+  {% endfor%}
+{% endif%}
+
+
+    
+</body>
+</html>

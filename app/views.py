@@ -6,6 +6,8 @@ from .forms import CrearEmpleadoForm, CrearTareaForm, AsignarRolForm, UnidadInte
 from django.http import Http404
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model, authenticate, login
+from django.contrib.auth.hashers import make_password
 
 
 
@@ -37,6 +39,17 @@ def crearusuario(request):
             usersave.cargo_empleado=CargoEmpleado.objects.get(pk=(request.POST.get('cargo_empleado')))
             usersave.id_empresa=Empresa.objects.get(pk=(request.POST.get('id_empresa')))
             usersave.id_unida=UnidadInterna.objects.get(pk=(request.POST.get('id_unida')))
+
+            if request.method == 'POST':
+                username=request.POST.get('rut')
+                password=request.POST.get('rut')[4:]
+                user=get_user_model().objects.create(
+                    username=username,
+                    password=make_password(password),
+                    is_active=True
+                )
+
+
             cursor=connection.cursor()
             cursor.execute("call SP_crear_usuario('"+usersave.rut+"','"+usersave.nombres+"', '"+usersave.apellidos+"', '"+usersave.correo_electronico+"', '"+usersave.usuario+"', '"+usersave.contrasena+"', '"+usersave.activo+"', '"+str(usersave.cargo_empleado.id)+"', '"+str(usersave.id_empresa.id)+"', '"+str(usersave.id_unida.id)+"')")
             messages.success(request, "El empleado "+usersave.nombres+" se guardo correctamente ")

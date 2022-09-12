@@ -86,10 +86,10 @@ WSGI_APPLICATION = 'ControlTask_V5.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ControlTask',
+        'NAME': 'control_tareas_v5',
         'USER': 'root',
-        'PASSWORD': 'duoc1235',
-        'HOST': '34.95.227.165',
+        'PASSWORD': 'duoc123',
+        'HOST': 'localhost',
         'PORT': '',
     }
 }

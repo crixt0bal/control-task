@@ -1,5 +1,7 @@
+from email.headerregistry import Group
 from secrets import choice
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager 
 
 # Create your models here.
 
@@ -12,6 +14,57 @@ class CargoEmpleado(models.Model):
     class Meta:
         managed = False
         db_table = 'Cargo_empleado'
+
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, username, password, **other_fields):
+        if not username:
+            raise ValueError('Users must have a username')
+
+        user = self.model(
+            username = username,
+            **other_fields
+        )
+        user.is_active = True
+
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, username, password, **other_fields):
+        other_fields.setdefault('is_staff', True)
+        other_fields.setdefault('is_superuser', True)
+        other_fields.setdefault('is_active', True)
+
+        return self.create_user(username, password, **other_fields)
+
+
+
+class User(AbstractBaseUser, PermissionsMixin):
+    username = models.CharField(
+        db_column='NombreUsuario', max_length=50, unique=True
+    )
+    password = models.CharField(max_length=255, blank=True, null=True)
+    first_name = models.CharField(max_length=100, blank=True, null=True)
+    last_name = models.CharField(max_length=100, blank=True, null=True)
+    email = models.CharField(max_length=100, blank=True, null=True)
+    date_joined = models.DateTimeField(
+        auto_now_add=True, db_column='FechaCreacion'
+    )
+    last_login = models.DateTimeField(
+        auto_now_add=True, db_column='LastLogin'
+    )
+    is_staff = models.BooleanField(default=False, db_column='is_staff')
+    is_active = models.BooleanField(default=True, db_column='Estado')
+    is_profesional = models.BooleanField(default=False, db_column='is_profesional')
+
+    objects = CustomUserManager()
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = []
+
+    def __str__(self):
+        return self.username
 
 
 

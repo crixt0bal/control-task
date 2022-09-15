@@ -1,4 +1,5 @@
 from sqlite3 import Cursor, connect
+from tokenize import group
 from django.shortcuts import render, redirect, get_object_or_404
 from app.models import Empleado, CargoEmpleado, Empresa, UnidadInterna, Tarea, EstadoTarea
 from django.contrib import messages
@@ -41,13 +42,20 @@ def crearusuario(request):
             usersave.id_unida=UnidadInterna.objects.get(pk=(request.POST.get('id_unida')))
 
             if request.method == 'POST':
-                username=request.POST.get('rut')
-                password=request.POST.get('rut')[4:]
+                username=request.POST.get('usuario')
+                password=request.POST.get('rut')
+                first_name=request.POST.get('nombres')
+                last_name=request.POST.get('apellidos')
+                email=request.POST.get('correo_electronico')
                 user=get_user_model().objects.create(
                     username=username,
                     password=make_password(password),
-                    is_active=True
+                    first_name=first_name,
+                    last_name=last_name,
+                    email=email,
+                    is_active=True,
                 )
+                
 
 
             cursor=connection.cursor()

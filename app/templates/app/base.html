@@ -29,45 +29,65 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarColor01">
+        {% if user.is_staff == 1 %}
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link " href="{% url 'listarusuario'%}"><i class="fas fa-user"></i> Empleados
+                <span class="visually-hidden">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'listartarea'%}"><i class="fas fa-tasks"></i> Tareas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'asignarrol'%}"><i class="fas fa-user-tag"></i> Roles</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'crearunidadinterna'%}"><i class="fas fa-building"></i> Unidades Internas</a>
+            </li>
+            
+            
+            <!-- <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+              </div>
+            </li> -->
+          </ul>
+        {% endif %}
+        {% if user.cargo_empleado == 1 %}
         <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link " href="{% url 'listarusuario'%}"><i class="fas fa-user"></i> Empleados
-              <span class="visually-hidden">(current)</span>
-            </a>
-          </li>
+          
           <li class="nav-item">
             <a class="nav-link" href="{% url 'listartarea'%}"><i class="fas fa-tasks"></i> Tareas</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'asignarrol'%}"><i class="fas fa-user-tag"></i> Roles</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'crearunidadinterna'%}"><i class="fas fa-building"></i> Unidades Internas</a>
-          </li>
           
-          
-          <!-- <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Separated link</a>
-            </div>
-          </li> -->
         </ul>
+        {% endif %}
+        {% if user.cargo_empleado == 2%}
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'listartarea'%}"><i class="fas fa-tasks"></i> Tareas</a>
+            </li>
+            
+          </ul>
+        {% endif %}
         {% if user.is_authenticated %}
           <li class="nav-item dropdown fw-bold d-flex my-2 my-sm-0">
             <a class="nav-link dropdown-toggle text-light btn btn-success" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> ¡Hola {{user.username}}!</a>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="{% url 'login'%}"><i class="fa-solid fa-power-off"></i> Cerrar sesión</a>
+              <a class="dropdown-item" href="{% url 'logout'%}"><i class="fa-solid fa-power-off"></i> Cerrar sesión</a>
               <!-- <a class="dropdown-item" href="#">Another action</a>
               <a class="dropdown-item" href="#">Something else here</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Separated link</a> -->
             </div>
           </li>
+        
         {% endif%}
         <!-- <form class="d-flex">
           <input class="form-control me-sm-2" type="text" placeholder="Search">

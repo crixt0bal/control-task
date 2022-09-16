@@ -48,6 +48,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=100, blank=True, null=True)
     last_name = models.CharField(max_length=100, blank=True, null=True)
     email = models.CharField(max_length=100, blank=True, null=True)
+    cargo_empleado = models.ForeignKey(CargoEmpleado, models.DO_NOTHING, db_column='cargo_empleado', null=True)
     date_joined = models.DateTimeField(
         auto_now_add=True, db_column='FechaCreacion'
     )
@@ -57,6 +58,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False, db_column='is_staff')
     is_active = models.BooleanField(default=True, db_column='Estado')
     is_profesional = models.BooleanField(default=False, db_column='is_profesional')
+    
 
     objects = CustomUserManager()
 
@@ -65,6 +67,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+
+    
 
 
 

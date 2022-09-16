@@ -20,6 +20,9 @@ def home(request):
 
 
 
+
+
+
 from django.db import connection
 
 @login_required
@@ -47,12 +50,15 @@ def crearusuario(request):
                 first_name=request.POST.get('nombres')
                 last_name=request.POST.get('apellidos')
                 email=request.POST.get('correo_electronico')
+                cargo=CargoEmpleado.objects.get(pk=(request.POST.get('cargo_empleado')))
+                activo=request.POST.get('activo')
                 user=get_user_model().objects.create(
                     username=username,
                     password=make_password(password),
                     first_name=first_name,
                     last_name=last_name,
                     email=email,
+                    cargo_empleado=cargo,
                     is_active=True,
                 )
                 

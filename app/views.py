@@ -1,3 +1,4 @@
+import datetime
 from sqlite3 import Cursor, connect
 from tokenize import group
 from django.shortcuts import render, redirect, get_object_or_404
@@ -45,29 +46,33 @@ def crearusuario(request):
             usersave.id_unida=UnidadInterna.objects.get(pk=(request.POST.get('id_unida')))
 
             if request.method == 'POST':
-                username=request.POST.get('usuario')
-                password=request.POST.get('rut')
-                first_name=request.POST.get('nombres')
-                last_name=request.POST.get('apellidos')
-                email=request.POST.get('correo_electronico')
-                cargo=CargoEmpleado.objects.get(pk=(request.POST.get('cargo_empleado')))
-                activo=request.POST.get('activo')
-                user=get_user_model().objects.create(
-                    username=username,
-                    password=make_password(password),
-                    first_name=first_name,
-                    last_name=last_name,
-                    email=email,
-                    cargo_empleado=cargo,
-                    is_active=True,
-                )
+                formulario = CrearEmpleadoForm(data=request.POST)
+                if formulario.is_valid():
+                    username=request.POST.get('rut')
+                    password=request.POST.get('rut')
+                    first_name=request.POST.get('nombres')
+                    last_name=request.POST.get('apellidos')
+                    email=request.POST.get('correo_electronico')
+                    cargo=CargoEmpleado.objects.get(pk=(request.POST.get('cargo_empleado')))
+                    activo=request.POST.get('activo')
+                    user=get_user_model().objects.create(
+                        username=username,
+                        password=make_password(password),
+                        first_name=first_name,
+                        last_name=last_name,
+                        email=email,
+                        cargo_empleado=cargo,
+                        is_active=True,
+                    )
+                    
+
                 
-
-
-            cursor=connection.cursor()
-            cursor.execute("call SP_crear_usuario('"+usersave.rut+"','"+usersave.nombres+"', '"+usersave.apellidos+"', '"+usersave.correo_electronico+"', '"+usersave.usuario+"', '"+usersave.contrasena+"', '"+usersave.activo+"', '"+str(usersave.cargo_empleado.id)+"', '"+str(usersave.id_empresa.id)+"', '"+str(usersave.id_unida.id)+"')")
-            messages.success(request, "El empleado "+usersave.nombres+" se guardo correctamente ")
-            return render(request, 'app/crearusuario.html', data)
+                    cursor=connection.cursor()
+                    cursor.execute("call SP_crear_usuario('"+usersave.rut+"','"+usersave.nombres+"', '"+usersave.apellidos+"', '"+usersave.correo_electronico+"', '"+usersave.usuario+"', '"+usersave.contrasena+"', '"+usersave.activo+"', '"+str(usersave.cargo_empleado.id)+"', '"+str(usersave.id_empresa.id)+"', '"+str(usersave.id_unida.id)+"')")
+                    messages.success(request, "El empleado "+usersave.nombres+" se guardo correctamente ")
+                    return render(request, 'app/crearusuario.html', data)
+                else:
+                    return render(request, "app/crearusuario.html", {'empleado':formulario})
     else:
         return render(request, 'app/crearusuario.html', data)
 
@@ -88,10 +93,15 @@ def creartarea(request):
             tareasave.estado=EstadoTarea.objects.get(pk=(request.POST.get('estado')))
             tareasave.creador=Empleado.objects.get(rut=(request.POST.get('creador')))
             tareasave.tarea_anterior=Tarea(pk=(request.POST.get('tarea_anterior')))
-            cursor=connection.cursor()
-            cursor.execute("call SP_crear_tarea('"+tareasave.nombre+"','"+tareasave.descripcion+"', '"+tareasave.inicio+"', '"+tareasave.termino+"', '"+tareasave.repetible+"', '"+tareasave.activo+"', '"+str(tareasave.estado.id)+"', '"+str(tareasave.creador.rut)+"', '"+str(tareasave.tarea_anterior.id)+"')")
-            messages.success(request, "La tarea "+tareasave.nombre+" se guardo correctamente ")
-            return render(request, 'app/creartarea.html', data)
+
+            formulario = CrearTareaForm(data=request.POST)
+            if formulario.is_valid():
+                cursor=connection.cursor()
+                cursor.execute("call SP_crear_tarea('"+tareasave.nombre+"','"+tareasave.descripcion+"', '"+tareasave.inicio+"', '"+tareasave.termino+"', '"+tareasave.repetible+"', '"+tareasave.activo+"', '"+str(tareasave.estado.id)+"', '"+str(tareasave.creador.rut)+"', '"+str(tareasave.tarea_anterior.id)+"')")
+                messages.success(request, "La tarea "+tareasave.nombre+" se guardo correctamente ")
+                return render(request, 'app/creartarea.html', data)
+            else:
+                return render(request, "app/creartarea.html", {'tarea':formulario})
     else:
         return render(request, 'app/creartarea.html', data)
 
@@ -196,11 +206,16 @@ def modificartarea(request, id):
             tareaupdate.estado=EstadoTarea.objects.get(pk=(request.POST.get('estado')))
             tareaupdate.creador=Empleado.objects.get(rut=(request.POST.get('creador')))
             tareaupdate.tarea_anterior=Tarea(pk=(request.POST.get('tarea_anterior')))
-            cursor=connection.cursor()
-            cursor.execute("call SP_modificar_tarea('"+str(tareaupdate.id)+"','"+tareaupdate.nombre+"','"+tareaupdate.descripcion+"', '"+tareaupdate.inicio+"', '"+tareaupdate.termino+"', '"+tareaupdate.repetible+"', '"+tareaupdate.activo+"', '"+str(tareaupdate.estado.id)+"', '"+str(tareaupdate.creador.rut)+"', '"+str(tareaupdate.tarea_anterior.id)+"')")
-            messages.success(request, "La tarea "+tareaupdate.nombre+" se edito correctamente ")
 
-            return render(request, 'app/modificartarea.html', data)
+            formulario = ModificarTareaForm(data=request.POST)
+            if formulario.is_valid():
+                cursor=connection.cursor()
+                cursor.execute("call SP_modificar_tarea('"+str(tareaupdate.id)+"','"+tareaupdate.nombre+"','"+tareaupdate.descripcion+"', '"+tareaupdate.inicio+"', '"+tareaupdate.termino+"', '"+tareaupdate.repetible+"', '"+tareaupdate.activo+"', '"+str(tareaupdate.estado.id)+"', '"+str(tareaupdate.creador.rut)+"', '"+str(tareaupdate.tarea_anterior.id)+"')")
+                messages.success(request, "La tarea "+tareaupdate.nombre+" se edito correctamente ")
+
+                return render(request, 'app/modificartarea.html', data)
+            else:
+                return render(request, "app/modificartarea.html", {'tarea':formulario})
     else:
         return render(request, 'app/modificartarea.html', data)
 
@@ -226,10 +241,16 @@ def modificarusuario(request, rut):
             userupdate.cargo_empleado=CargoEmpleado.objects.get(pk=(request.POST.get('cargo_empleado')))
             userupdate.id_empresa=Empresa.objects.get(pk=(request.POST.get('id_empresa')))
             userupdate.id_unida=UnidadInterna.objects.get(pk=(request.POST.get('id_unida')))
-            cursor=connection.cursor()
-            cursor.execute("call SP_modificar_usuario('"+userupdate.rut+"','"+userupdate.nombres+"', '"+userupdate.apellidos+"', '"+userupdate.correo_electronico+"', '"+userupdate.usuario+"', '"+userupdate.contrasena+"', '"+userupdate.activo+"', '"+str(userupdate.cargo_empleado.id)+"', '"+str(userupdate.id_empresa.id)+"', '"+str(userupdate.id_unida.id)+"')")
-            messages.success(request, "El empleado "+userupdate.nombres+" se guardo correctamente ")
-            return render(request, 'app/modificarusuario.html', data)
+
+            if request.method == 'POST':
+                formulario = ModificarEmpleadoForm(data=request.POST, instance=usuario)
+                if formulario.is_valid():
+                    cursor=connection.cursor()
+                    cursor.execute("call SP_modificar_usuario('"+userupdate.rut+"','"+userupdate.nombres+"', '"+userupdate.apellidos+"', '"+userupdate.correo_electronico+"', '"+userupdate.usuario+"', '"+userupdate.contrasena+"', '"+userupdate.activo+"', '"+str(userupdate.cargo_empleado.id)+"', '"+str(userupdate.id_empresa.id)+"', '"+str(userupdate.id_unida.id)+"')")
+                    messages.success(request, "El empleado "+userupdate.nombres+" se guardo correctamente ")
+                    return render(request, 'app/modificarusuario.html', data)
+                else:
+                    return render(request, "app/modificarusuario.html", {'empleado':formulario})
     else:
         return render(request, 'app/modificarusuario.html', data)
 

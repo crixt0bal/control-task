@@ -95,9 +95,12 @@ class CrearTareaForm(forms.ModelForm):
 
     def clean_termino(self):
         termino = self.cleaned_data['termino']
-        if termino < timezone.now():
-            raise forms.ValidationError("La fecha no puede ser menor a la de hoy!")
+        inicio = self.cleaned_data['inicio']
+        if termino < timezone.now() or termino < inicio:
+            raise forms.ValidationError("La fecha de termino no puede ser menor a la de hoy y no puede ser menor a la fecha de inicio!")
         return termino
+
+    
     
     activo = forms.IntegerField(widget=forms.HiddenInput, initial=1)
     nombre = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={'placeholder':'Ingrese nombre'}))

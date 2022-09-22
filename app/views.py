@@ -2,7 +2,7 @@ import datetime
 from sqlite3 import Cursor, connect
 from tokenize import group
 from django.shortcuts import render, redirect, get_object_or_404
-from app.models import Empleado, CargoEmpleado, Empresa, UnidadInterna, Tarea, EstadoTarea
+from app.models import Empleado, CargoEmpleado, Empresa, UnidadInterna, Tarea, EstadoTarea, User
 from django.contrib import messages
 from .forms import CrearEmpleadoForm, CrearTareaForm, AsignarRolForm, UnidadInternaForm, ModificarTareaForm, ModificarEmpleadoForm, FinalizarTareaForm, FinalizarEmpleadoForm
 from django.http import Http404
@@ -10,6 +10,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib.auth.hashers import make_password
+
 
 
 
@@ -39,11 +40,12 @@ def crearusuario(request):
             usersave.apellidos=request.POST.get('apellidos')
             usersave.correo_electronico=request.POST.get('correo_electronico')
             usersave.usuario=request.POST.get('usuario')
-            usersave.contrasena=request.POST.get('contrasena')
+            usersave.contrasena=make_password(request.POST.get('contrasena'))
             usersave.activo=request.POST.get('activo')
             usersave.cargo_empleado=CargoEmpleado.objects.get(pk=(request.POST.get('cargo_empleado')))
             usersave.id_empresa=Empresa.objects.get(pk=(request.POST.get('id_empresa')))
             usersave.id_unida=UnidadInterna.objects.get(pk=(request.POST.get('id_unida')))
+            
 
             if request.method == 'POST':
                 formulario = CrearEmpleadoForm(data=request.POST)

@@ -27,11 +27,7 @@
                 
                 
                 {% for display in entity%}
-                    {% if display.5 == 1%}
-
-                    {% else %}
-
-                    {% endif %}
+                    
                 <tr>
                     
                     <td>{{display.0}}</td>
@@ -40,27 +36,27 @@
                     <td>{{display.3}}</td>
                     <td>
                         {% if display.4 == 1 %}
-                        Si
+                        <a href="" class="btn btn-success btn-sm no-hover" style="cursor: default; border-radius: 5rem; pointer-events: none;"><i class="fas fa-check"></i></a>
                         {% else %}
-                        No
+                        <a href="" class="btn btn-danger btn-sm no-hover" style="cursor: default; border-radius: 2rem; pointer-events: none;"><i class="fas fa-times"></i></a>
                         {% endif %} 
                     </td>
                     <td>
                         {% if display.5 == 1 %}
-                        Si
+                        <a href="" class="btn btn-success btn-sm no-hover" style="cursor: default; border-radius: 5rem; pointer-events: none;"><i class="fas fa-check"></i></a>
                         {% else %}
-                        No
+                        <a href="" class="btn btn-danger btn-sm no-hover " style="cursor: default; border-radius: 2rem; pointer-events: none;"><i class="fas fa-times ps-1 pe-1"></i></a>
                         {% endif %} 
                     </td>
-                    <td>
+                    <td class="ps-0 pe-0">
                         {% if display.6 == 1 %}
-                        Por hacer
+                        <a href="" class="btn btn-info btn-sm no-hover" style="cursor: default; border-radius: 2rem; pointer-events: none; ">Por hacer</a>
                         {% endif %}
                         {% if display.6 == 2 %}
-                        En curso
+                        <a href="" class="btn btn-warning btn-sm no-hover" style="cursor: default; border-radius: 2rem; pointer-events: none;">En curso</a>
                         {% endif %}
                         {% if display.6 == 3 %}
-                        Finalizada
+                        <a href="" class="btn btn-success btn-sm no-hover" style="cursor: default; border-radius: 2rem; pointer-events: none;">Finalizada</a>
                         {% endif %}
                     </td>
                     <td>{{display.7}}</td>

@@ -1,4 +1,5 @@
 import datetime
+#from email.headerregistry import Group
 from sqlite3 import Cursor, connect
 from tokenize import group
 from django.shortcuts import render, redirect, get_object_or_404
@@ -10,6 +11,9 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib.auth.hashers import make_password
+from .decorators import allowed_users, admin_only
+from django.contrib.auth.models import Group
+
 
 
 
@@ -28,6 +32,8 @@ def home(request):
 from django.db import connection
 
 @login_required
+#@allowed_users(allowed_roles=['Administrador'])
+@admin_only
 def crearusuario(request):
     data = {
         'empleado': CrearEmpleadoForm()
@@ -57,6 +63,7 @@ def crearusuario(request):
                     email=request.POST.get('correo_electronico')
                     cargo=CargoEmpleado.objects.get(pk=(request.POST.get('cargo_empleado')))
                     activo=request.POST.get('activo')
+                    groups=Group.objects.get(pk=(request.POST.get('group')))
                     user=get_user_model().objects.create(
                         username=username,
                         password=make_password(password),
@@ -65,6 +72,7 @@ def crearusuario(request):
                         email=email,
                         cargo_empleado=cargo,
                         is_active=True,
+                        group=user.groups.add(groups)
                     )
                     
 
@@ -108,6 +116,7 @@ def creartarea(request):
         return render(request, 'app/creartarea.html', data)
 
 @login_required
+@admin_only
 def crearunidadinterna(request):
     data = {
         'unidadinterna': UnidadInternaForm()
@@ -170,6 +179,7 @@ def listartarea(request):
 
 
 @login_required
+@admin_only
 def asignarrol(request):
     data = {
         'asignarrol': AsignarRolForm()
@@ -223,6 +233,7 @@ def modificartarea(request, id):
 
 
 @login_required
+@admin_only
 def modificarusuario(request, rut):
     usuario = get_object_or_404(Empleado, rut=rut)
 
@@ -277,6 +288,7 @@ def finalizartarea(request, id):
 
 
 @login_required
+@admin_only
 def finalizarempleado(request, rut):
     empleado = get_object_or_404(Empleado, rut=rut)
 

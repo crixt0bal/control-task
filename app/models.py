@@ -1,7 +1,8 @@
 from email.headerregistry import Group
 from secrets import choice
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager 
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+ 
 
 # Create your models here.
 
@@ -61,6 +62,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     
 
     objects = CustomUserManager()
+
+
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []

@@ -29,7 +29,8 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarColor01">
-        {% if user.is_staff == 1 %}
+        {% for group in request.user.groups.all %}
+          {% if group.name == 'Administrador' %}
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
               <a class="nav-link " href="{% url 'listarusuario'%}"><i class="fas fa-user"></i> Empleados
@@ -58,24 +59,28 @@
               </div>
             </li> -->
           </ul>
-        {% endif %}
-        {% if user.cargo_empleado == 1 %}
-        <ul class="navbar-nav me-auto">
           
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'listartarea'%}"><i class="fas fa-tasks"></i> Tareas</a>
-          </li>
+          {% endif %}
+          {% if group.name == 'Funcionario' %}
+          <ul class="navbar-nav me-auto">
           
-        </ul>
-        {% endif %}
-        {% if user.cargo_empleado == 2%}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'listartarea'%}"><i class="fas fa-tasks"></i> Tareas</a>
+            </li>
+            
+          </ul>
+          {% endif %}
+          {% if group.name == 'Diseñador' %}
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
               <a class="nav-link" href="{% url 'listartarea'%}"><i class="fas fa-tasks"></i> Tareas</a>
             </li>
             
           </ul>
-        {% endif %}
+          {% endif %}
+
+        {% endfor %}
+    
         {% if user.is_authenticated %}
           <li class="nav-item dropdown fw-bold d-flex my-2 my-sm-0">
             <a class="nav-link dropdown-toggle text-light btn btn-success" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> ¡Hola {{user.username}}!</a>

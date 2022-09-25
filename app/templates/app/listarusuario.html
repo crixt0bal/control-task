@@ -42,6 +42,15 @@
                         {% endif %}
                     </td>
                     <td class="ps-0 pe-0">
+                        <!-- {% for cargo_empleado in request.user.cargo_empleado.all %}
+                            {% if cargo_empleado.nombre_cargo == 'funcionario' %}
+                            <a href="" class="btn btn-info btn-sm no-hover" style="cursor: default; border-radius: 2rem; pointer-events: none;">Funcionario</a>
+                            {% endif %}
+                            {% if cargo_empleado.nombre_cargo == 'diseñador' %}
+                            <a href="" class="btn btn-warning btn-sm no-hover" style="cursor: default; border-radius: 2rem; pointer-events: none;">Diseñador</a> 
+                            {% endif %}
+                        {% endfor %} -->
+
                         {% if display.7 == 1 %}
                         <a href="" class="btn btn-info btn-sm no-hover" style="cursor: default; border-radius: 2rem; pointer-events: none;">Funcionario</a> 
                         {% else %}

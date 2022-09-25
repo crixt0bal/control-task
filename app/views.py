@@ -72,9 +72,10 @@ def crearusuario(request):
                         email=email,
                         cargo_empleado=cargo,
                         is_active=True,
-                        group=user.groups.add(groups)
+                        
                     )
                     
+                    group=user.groups.add(groups)
 
                 
                     cursor=connection.cursor()
@@ -87,6 +88,7 @@ def crearusuario(request):
         return render(request, 'app/crearusuario.html', data)
 
 @login_required
+@allowed_users(allowed_roles=['Administrador', 'Funcionario'])
 def creartarea(request):
     data = {
         'tarea': CrearTareaForm()
@@ -134,10 +136,12 @@ def crearunidadinterna(request):
         return render(request, 'app/crearunidad.html', data)
 
 @login_required
+@admin_only
 def listarusuario(request):
     cursor=connection.cursor()
     cursor.execute('call SP_listar_todos_empleados()')
     results=cursor.fetchall()
+    
     
     page = request.GET.get('page', 1)
 
@@ -156,6 +160,7 @@ def listarusuario(request):
 
     
 @login_required
+@allowed_users(allowed_roles=['Administrador', 'Funcionario'])
 def listartarea(request):
 
     cursor=connection.cursor()
@@ -197,6 +202,7 @@ def asignarrol(request):
         return render(request, 'app/asignarrol.html', data)
 
 @login_required
+@allowed_users(allowed_roles=['Administrador', 'Funcionario'])
 def modificartarea(request, id):
 
     tarea = get_object_or_404(Tarea, id=id)
@@ -268,6 +274,7 @@ def modificarusuario(request, rut):
         return render(request, 'app/modificarusuario.html', data)
 
 @login_required
+@allowed_users(allowed_roles=['Administrador', 'Funcionario'])
 def finalizartarea(request, id):
     tarea = get_object_or_404(Tarea, id=id)
 

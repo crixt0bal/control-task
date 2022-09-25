@@ -7,7 +7,7 @@ from secrets import choice
 from select import select
 from xmlrpc.client import DateTime
 from django import forms
-from .models import Empleado, Tarea, UnidadInterna
+from .models import CargoEmpleado, Empleado, Tarea, UnidadInterna
 from django.forms import ValidationError
 import datetime
 from django.core.validators import MinValueValidator, RegexValidator
@@ -27,6 +27,9 @@ class CrearEmpleadoForm(forms.ModelForm):
     correo_electronico = forms.EmailField(max_length=100, required=True, widget=forms.EmailInput(attrs={'placeholder':'Ingrese correo', 'id':'email_validation'}))
     usuario = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'placeholder':'Ingrese usuario'}))
     contrasena = forms.CharField(max_length=100, required=True, label="Contraseña", validators=[RegexValidator('^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$')], error_messages={'invalid': 'Debe contener mínimo ocho caracteres, al menos una letra y un número'}, widget=forms.PasswordInput(attrs={'placeholder':'Ingrese contraseña', 'id':'contrasena_validation'}))
+    cargo_empleado = forms.ModelChoiceField(queryset=CargoEmpleado.objects.all(),
+                                   required=True)
+
     group = forms.ModelChoiceField(queryset=Group.objects.all(),
                                    required=True)
 

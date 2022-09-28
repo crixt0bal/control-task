@@ -1,7 +1,7 @@
-from email.headerregistry import Group
+#from email.headerregistry import Group
 from secrets import choice
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, Group
  
 
 # Create your models here.
@@ -100,6 +100,7 @@ class Empleado(models.Model):
     class Meta:
         managed = False
         db_table = 'Empleado'
+        
 
 
 class Empresa(models.Model):

@@ -317,6 +317,30 @@ def finalizarempleado(request, rut):
 
 
 
+@login_required
+@allowed_users(allowed_roles=['Administrador', 'Funcionario'])
+def listadotareaprocesos(request):
+
+    cursor=connection.cursor()
+    cursor.execute('call SP_listar_todas_tareas()')
+    results=cursor.fetchall()
+
+    page = request.GET.get('page', 1)
+
+    try:
+        paginator = Paginator(results, 6)
+        results = paginator.page(page)
+    except:
+        raise Http404
+
+    data = {
+        'entity': results,
+        'paginator': paginator
+    }
+
+    return render(request, 'app/tareas-procesos.html', data)
+
+
 
 
         

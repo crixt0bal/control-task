@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, crearusuario, listarusuario, listartarea, creartarea, crearunidadinterna, asignarrol, modificartarea, modificarusuario, finalizartarea, finalizarempleado
+from .views import home, crearusuario, listarusuario, listartarea, creartarea, crearunidadinterna, asignarrol, modificartarea, modificarusuario, finalizartarea, finalizarempleado, listadotareaprocesos
 
 
 
@@ -8,6 +8,7 @@ urlpatterns = [
     path('crearusuario/', crearusuario, name="crearusuario"),
     path('listarusuario/', listarusuario, name="listarusuario"),
     path('listartarea/', listartarea, name="listartarea"),
+    path('tareas-procesos/', listadotareaprocesos, name="tareas-procesos"),
     path('creartarea/', creartarea, name="creartarea"),
     path('crearunidadinterna/', crearunidadinterna, name="crearunidadinterna"),
     path('asignarrol/', asignarrol, name="asignarrol"),
